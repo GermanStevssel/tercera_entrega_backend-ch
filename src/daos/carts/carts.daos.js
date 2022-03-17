@@ -1,5 +1,7 @@
+import dotenv from "dotenv";
 import cartSchema from "../../schema/carts.cartSchema";
 
+dotenv.config();
 let cartsDao;
 
 if (`${process.env.DB}` === "firebase") {

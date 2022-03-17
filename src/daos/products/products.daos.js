@@ -1,5 +1,7 @@
+import dotenv from "dotenv";
 import productSchema from "../../schema/products.schema";
 
+dotenv.config();
 let productsDao;
 
 if (`${process.env.DB}` === "firebase") {
