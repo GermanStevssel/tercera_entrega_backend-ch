@@ -7,7 +7,8 @@ export default class FirebaseContainer {
 	constructor(collection) {
 		this.collection = collection;
 	}
-	getAll = async () => {
+
+	async getAll() {
 		try {
 			const results = [];
 			const db = admin.firestore();
@@ -21,7 +22,8 @@ export default class FirebaseContainer {
 			console.log(err);
 			throw new Error(`Error al intentar obtener todo: ${err}`);
 		}
-	};
+	}
+
 	getById(id) {
 		const db = admin.firestore();
 		const query = db.collection(this.collection);
@@ -83,6 +85,7 @@ export default class FirebaseContainer {
 	}
 
 	saveOne(object) {
+		console.log("object>", object);
 		object.timestamp = new Date();
 		const db = admin.firestore();
 		const query = db.collection(this.collection);
@@ -90,7 +93,7 @@ export default class FirebaseContainer {
 		doc
 			.create(object)
 			.then((data) => {
-				console.log(data);
+				console.log("data:", data);
 				return { id: doc.id, ...object };
 			})
 			.then(() => console.log("Guardado con exito"))

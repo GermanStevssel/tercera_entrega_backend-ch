@@ -4,14 +4,12 @@ import { productsRouter } from "./src/routers/productsRouter.js";
 import { cartRouter } from "./src/routers/cartsRouter.js";
 const app = express();
 
-app.use("/api/productos", productsRouter);
-app.use("/api/carrito", cartRouter);
+app.use(json());
+app.use(urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-productsRouter.use(json());
-productsRouter.use(urlencoded({ extended: true }));
-cartRouter.use(json());
-cartRouter.use(urlencoded({ extended: true }));
+app.use("/api/productos", productsRouter);
+app.use("/api/carrito", cartRouter);
 
 const PORT = 8080;
 

@@ -27,11 +27,9 @@ productsRouter.get("/:id", (req, res) => {
 	}
 });
 
-productsRouter.post("/", (req, res) => {
+productsRouter.post("/", async (req, res) => {
 	if (administrador) {
-		productsContainer.save(req.body);
-		videogames.push(req.body);
-		res.json(videogames);
+		res.json(await productsContainer.saveOne(req.body));
 	} else {
 		res.send(authError(req));
 	}
