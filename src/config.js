@@ -1,6 +1,9 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 export const config = {
 	mongodb: {
-		url: "mongodb+srv://coderhousebackend.qp3xl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+		url: process.env.mongoURI,
 	},
 	firebase: {
 		type: "service_account",
