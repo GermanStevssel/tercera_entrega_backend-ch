@@ -13,13 +13,13 @@ const authError = (req) => ({
 });
 
 // Endpoints Videogames
-productsRouter.get("/", (req, res) => {
-	res.send(productsContainer.getAll());
+productsRouter.get("/", async (req, res) => {
+	res.json(await productsContainer.getAll());
 });
 
-productsRouter.get("/:id", (req, res) => {
-	const productId = parseInt(req.params.id);
-	const product = productsContainer.getById(productId);
+productsRouter.get("/:id", async (req, res) => {
+	const productId = req.params.id;
+	const product = await productsContainer.getById(productId);
 	if (product) {
 		res.send(product);
 	} else {

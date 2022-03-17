@@ -8,38 +8,39 @@ export default class FirebaseContainer {
 		this.collection = collection;
 	}
 
-	async getAll() {
+	getAll = async () => {
+		const results = [];
+
 		try {
-			const results = [];
 			const db = admin.firestore();
 			const query = db.collection(this.collection);
 			const querySnapshot = await query.get();
 			querySnapshot.forEach((doc) => {
 				results.push({ id: doc.id, ...doc.data() });
 			});
-			return results;
 		} catch (err) {
 			console.log(err);
 			throw new Error(`Error al intentar obtener todo: ${err}`);
 		}
-	}
+		console.log("results", results);
+		return results;
+	};
 
-	getById(id) {
-		const db = admin.firestore();
-		const query = db.collection(this.collection);
-		const doc = query.doc(id);
-		const item = doc.get();
-		if (!item) {
-			console.log(`Error al listar por el id: ${id}`);
+	getById = async (id) => {
+		try {
+			const db = admin.firestore();
+			const query = db.collection(this.collection);
+			const doc = await query.doc(id).get();
+
+			console.log("doc:", doc.length);
+			if (!doc.exists) {
+				console.log(`Error al listar por el id: ${id}`);
+			} else {
+			}
+		} catch (err) {
+			console.log("error:", err);
 		}
-		item
-			.then((data) => {
-				const response = data.data();
-				console.log(response);
-				return { id, ...data };
-			})
-			.catch((err) => console.log(err));
-	}
+	};
 
 	deleteById(id) {
 		const db = admin.firestore();
@@ -54,7 +55,7 @@ export default class FirebaseContainer {
 		return item;
 	}
 
-	async deleteAll() {
+	deleteAll = async () => {
 		try {
 			const docs = await this.listAll();
 			const ids = docs.map((doc) => doc.id);
@@ -63,7 +64,7 @@ export default class FirebaseContainer {
 		} catch (err) {
 			throw new Error(`Error al borrar: ${err}`);
 		}
-	}
+	};
 
 	updateById(id, object) {
 		object.timestamp = new Date();
@@ -85,31 +86,15 @@ export default class FirebaseContainer {
 	}
 
 	saveOne(object) {
-		console.log("object>", object);
 		object.timestamp = new Date();
 		const db = admin.firestore();
 		const query = db.collection(this.collection);
 		const doc = query.doc();
 		doc
 			.create(object)
-			.then((data) => {
-				console.log("data:", data);
-				return { id: doc.id, ...object };
-			})
 			.then(() => console.log("Guardado con exito"))
 			.catch((err) => console.log(err));
-	}
 
-	saveMany(array) {
-		const db = admin.firestore();
-		const query = db.collection(this.collection);
-		array.forEach((object) => {
-			let doc = query.doc();
-			doc
-				.create(object)
-				.then((data) => console.log(data))
-				.then(() => console.log("Producto guardado"))
-				.catch((err) => console.log(err));
-		});
+		return { id: doc.id, ...object };
 	}
 }
