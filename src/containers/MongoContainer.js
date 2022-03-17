@@ -1,64 +1,64 @@
-import mongoose from "mongoose";
+import mongoose, { model } from "mongoose";
 import { config } from "../config.js";
 
 mongoose.connect(`${config.mongodb.url}`);
 
 export default class MongoContainer {
-	constructor(schema) {
-		this.schema = schema;
+	constructor(collection, schema) {
+		this.collection = model(collection, schema);
 		this.object = [];
 	}
 	getAll() {
-		this.schema
+		this.collection
 			.find({})
 			.then((data) => {
 				this.object = data;
 			})
 			.catch((err) => console.log(err));
-		return object.length
+		return this.object.length
 			? this.object
-			: console.log("No hay ningún producto cargado");
+			: console.log("No hay nada cargado");
 	}
-	getById(id) {
-		this.schema
-			.find({ id })
-			.then((data) => (this.object = data))
-			.catch((err) => console.log(err));
 
-		return object.length ? this.object : console.log("Objeto no encontrado");
+	getById(id) {
+		let doc = this.collection.find(id);
+
+		if (!doc) {
+			throw new Error(`id ${id} no encontrado`);
+		}
+		doc.then((data) => (this.object = data)).catch((err) => console.log(err));
+
+		return this.object.length
+			? this.object
+			: console.log("Objeto no encontrado");
 	}
+
 	deleteById(id) {
-		this.schema
+		this.collection
 			.deleteOne({ id })
-			.then(() => console.log(`El objecto con id: ${id} se ha eliminado`))
+			.then(() => console.log(`El objeto con id: ${id} se ha eliminado`))
 			.catch((err) => console.log(err));
 	}
 	deleteAll() {
-		this.schema
+		this.collection
 			.deleteMany({})
 			.then(() => console.log("Se eliminaron todos los objetos"))
 			.catch((err) => console.log(err));
 	}
 	saveOne(object) {
-		this.schema
-			.create(object) //
-			.then((data) => console.log(data))
+		object.timestamp = new Date();
+		this.collection
+			.create(object)
+			.then((data) => {
+				console.log(data);
+				return data;
+			})
 			.catch((err) => console.log(err));
 	}
-	saveMany(objects) {
-		if (!objects.length) {
-			throw new Error("No existen productos para agregar");
-		}
 
-		const normalizedObjects = objects.map((object) => new this.schema(object));
-
-		this.schema
-			.insertMany(normalizedObjects)
-			.then((data) => console.log(data))
-			.catch((err) => console.log(err));
-	}
 	updateById(id, object) {
-		this.schema
+		object.timestamp = new Date();
+		this.collection
 			.updateOne(
 				{ id },
 				{
@@ -66,6 +66,6 @@ export default class MongoContainer {
 				}
 			)
 			.then((data) => console.log(data))
-			.catch((err) => console.log(err));
+			.catch((err) => console.log(`Error al actualizar: ${err}`));
 	}
 }
