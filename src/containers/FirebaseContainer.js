@@ -1,8 +1,6 @@
 import admin from "firebase-admin";
 import { config } from "../config.js";
 
-console.log("config", config);
-
 admin.initializeApp({ credential: admin.credential.cert(config.firebase) });
 
 export default class FirebaseContainer {
@@ -54,7 +52,7 @@ export default class FirebaseContainer {
 		return item;
 	}
 
-	deleteAll() {
+	async deleteAll() {
 		try {
 			const docs = await this.listAll();
 			const ids = docs.map((doc) => doc.id);

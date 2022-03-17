@@ -1,18 +1,16 @@
-import dotenv from "dotenv";
-import cartSchema from "../../schema/carts.cartSchema";
+import cartSchema from "../../schema/carts.schema.js";
 
-dotenv.config();
 let cartsDao;
 
 if (`${process.env.DB}` === "firebase") {
 	const { default: CartsDaoFirebase } = await import(
-		"../../containers/FirebaseContainer"
+		"../../containers/FirebaseContainer.js"
 	);
 
 	cartsDao = new CartsDaoFirebase("carts");
 } else {
 	const { default: CartsDaoMongo } = await import(
-		"../../containers/MongoContainer"
+		"../../containers/MongoContainer.js"
 	);
 
 	cartsDao = new CartsDaoMongo("carts", cartSchema);

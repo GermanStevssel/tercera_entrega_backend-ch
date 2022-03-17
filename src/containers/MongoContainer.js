@@ -1,6 +1,7 @@
-import mongoose, { model } from "mongoose";
+import mongoose from "mongoose";
 import { config } from "../config.js";
 
+const { model } = mongoose;
 mongoose.connect(`${config.mongodb.url}`);
 
 export default class MongoContainer {

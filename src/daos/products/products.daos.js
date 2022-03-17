@@ -1,21 +1,19 @@
-import dotenv from "dotenv";
-import productSchema from "../../schema/products.schema";
+import productSchema from "../../schema/products.schema.js";
 
-dotenv.config();
 let productsDao;
 
 if (`${process.env.DB}` === "firebase") {
 	const { default: ProductsDaoFirebase } = await import(
-		"../../containers/FirebaseContainer"
+		"../../containers/FirebaseContainer.js"
 	);
 
-	cartsDao = new ProductsDaoFirebase("carts");
+	productsDao = new ProductsDaoFirebase("products");
 } else {
 	const { default: ProductsDaoMongo } = await import(
-		"../../containers/MongoContainer"
+		"../../containers/MongoContainer.js"
 	);
 
-	productsDao = new ProductsDaoMongo("products", productSchema);
+	productsDao = new ProductsDaoMongo("products");
 }
 
 export default productsDao;
