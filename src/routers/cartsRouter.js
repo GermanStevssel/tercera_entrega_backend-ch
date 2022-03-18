@@ -64,7 +64,10 @@ cartRouter.delete("/:id/productos/:id_prod", async (req, res) => {
 		const isInCart = cart.productos.some((product) => product.id === productId);
 
 		if (isInCart) {
-			cart.productos.filter((producto) => producto.id !== productId);
+			cart.productos = cart.productos.filter(
+				(producto) => producto.id !== productId
+			);
+			cart.products;
 			res.json(await cartsContainer.updateById(req.params.id, cart));
 		} else {
 			throw new Error(`El producto ${productId} no esta en el carrito`);
