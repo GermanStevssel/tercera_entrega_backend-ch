@@ -49,20 +49,23 @@ export default class FirebaseContainer {
 			const query = db.collection(this.collection);
 			const doc = await query.doc(id).delete();
 
-			console.log(`Se ha eliminado ${doc} con el id ${id}`);
-			return `Se ha eliminado ${doc} con el id ${id}`;
+			console.log(`Se ha eliminadoc el id ${id}`);
+			return `Se ha eliminado el id ${id}`;
 		} catch (err) {
 			console.log(err);
-			throw new Error(`Error al intentar obtener por id: ${err}`);
+			throw new Error(`Error al intentar eliminar por id: ${err}`);
 		}
 	};
 
 	deleteAll = async () => {
 		try {
-			const docs = await this.listAll();
+			const docs = await this.getAll();
 			const ids = docs.map((doc) => doc.id);
-			const deleteDocs = ids.map((id) => this.delete(id));
-			await Promise.allSettled(deleteDocs);
+			const deleteDocs = ids.map((id) => this.deleteById(id));
+			await Promise.all(deleteDocs);
+			return {
+				result: "Todos los productos han sido eliminados",
+			};
 		} catch (err) {
 			throw new Error(`Error al borrar: ${err}`);
 		}
@@ -77,6 +80,7 @@ export default class FirebaseContainer {
 			console.log("query:", query);
 			const doc = query.doc(id);
 			console.log("doc:", doc);
+			console.log("docID:", doc.id);
 			if (!doc.exists) {
 				console.log(`Error al actualizar el objeto con id: ${id}`);
 				throw new Error(`No existe el objeto con id: ${id}`);
@@ -90,16 +94,24 @@ export default class FirebaseContainer {
 		}
 	};
 
-	save(object) {
-		object.timestamp = new Date();
-		const db = admin.firestore();
-		const query = db.collection(this.collection);
-		const doc = query.doc();
-		doc
-			.create(object)
-			.then(() => console.log("Guardado con exito"))
-			.catch((err) => console.log(err));
-
-		return { id: doc.id, ...object };
-	}
+	save = async (object) => {
+		const { name, price, thumbnail } = object;
+		if (name !== "" && price !== "" && thumbnail !== "") {
+			object.timestamp = new Date();
+			try {
+				const db = admin.firestore();
+				const query = db.collection(this.collection);
+				const doc = query.doc();
+				object.id = doc.id;
+				await doc.create(object);
+				console.log("Guardado con exito");
+				return { id: doc.id, ...object };
+			} catch (err) {
+				console.log(err);
+				throw new Error(`Error al guardar: ${err}`);
+			}
+		} else {
+			return { error: "Complete los datos faltantes" };
+		}
+	};
 }

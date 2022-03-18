@@ -50,16 +50,14 @@ productsRouter.put("/:id", (req, res) => {
 
 productsRouter.delete("/:id", async (req, res) => {
 	const productId = req.params.id;
-	console.log("productId", productId);
 	administrador
 		? res.send(await productsContainer.deleteById(productId))
 		: res.send(authError);
 });
 
-productsRouter.delete("/", (req, res) => {
+productsRouter.delete("/", async (req, res) => {
 	if (administrador) {
-		productsContainer.deleteAll();
-		res.send({ result: "Todos los productos han sido eliminados" });
+		res.send(await productsContainer.deleteAll());
 	} else {
 		res.send(authError(req));
 	}
