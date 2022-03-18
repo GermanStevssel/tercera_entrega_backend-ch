@@ -25,15 +25,13 @@ cartRouter.get("/:id", async (req, res) => {
 });
 
 cartRouter.get("/:id/productos", async (req, res) => {
-	const cartId = parseInt(req.params.id);
+	const cartId = req.params.id;
 	const cart = await cartsContainer.getById(cartId);
+
 	if (cart) {
-		const product = await productsContainer.getById(req.body.id);
-		cart.productos.push(product);
-		await cartsContainer.updateById(cartId, cart);
-		res.json(cart);
+		res.json({ productos: cart.productos });
 	} else {
-		res.json({ Error: "No existe ese carrito" });
+		res.json({ error: "carrito no encontrado" });
 	}
 });
 
@@ -41,21 +39,37 @@ cartRouter.post("/", async (req, res) => {
 	res.json(await cartsContainer.save(req.body));
 });
 
-cartRouter.post("/:id/productos", (req, res) => {
-	const cartId = parseInt(req.params.id);
+cartRouter.post("/:id/productos", async (req, res) => {
+	const cart = await cartsContainer.getById(req.params.id);
+	const product = await productsContainer.getById(req.body.id);
+	cart.productos.push(product);
 
-	cartsContainer.addVideogameToCart(cartId, req, res);
+	res.json(await cartsContainer.updateById(req.params.id, cart));
 });
 
-cartRouter.delete("/:id", (req, res) => {
-	const cartId = parseInt(req.params.id);
-
-	cartsContainer.deleteById(cartId, req, res);
+cartRouter.delete("/", async (req, res) => {
+	res.send(await cartsContainer.deleteAll());
 });
 
-cartRouter.delete("/:id/productos/:id_prod", (req, res) => {
-	const cartId = parseInt(req.params.id);
-	const productId = parseInt(req.params.id_prod);
+cartRouter.delete("/:id", async (req, res) => {
+	const cartId = req.params.id;
+	res.send(await cartsContainer.deleteById(cartId));
+});
 
-	cartsContainer.deleteVideogameInCartWithId(cartId, productId, req, res);
+cartRouter.delete("/:id/productos/:id_prod", async (req, res) => {
+	const cartId = req.params.id;
+	const productId = req.params.id_prod;
+	try {
+		const cart = await cartsContainer.getById(cartId);
+		const isInCart = cart.productos.some((product) => product.id === productId);
+
+		if (isInCart) {
+			cart.productos.filter((producto) => producto.id !== productId);
+			res.json(await cartsContainer.updateById(req.params.id, cart));
+		} else {
+			throw new Error(`El producto ${productId} no esta en el carrito`);
+		}
+	} catch (err) {
+		throw new Error(`Error al eliminar producto: ${err}`);
+	}
 });

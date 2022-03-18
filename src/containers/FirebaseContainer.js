@@ -64,7 +64,7 @@ export default class FirebaseContainer {
 			const deleteDocs = ids.map((id) => this.deleteById(id));
 			await Promise.all(deleteDocs);
 			return {
-				result: "Todos los productos han sido eliminados",
+				result: "Todos los documentos han sido eliminados",
 			};
 		} catch (err) {
 			throw new Error(`Error al borrar: ${err}`);
@@ -73,21 +73,12 @@ export default class FirebaseContainer {
 
 	updateById = async (id, object) => {
 		object.timestamp = new Date();
-		console.log("object", object);
 		try {
 			const db = admin.firestore();
 			const query = db.collection(this.collection);
-			console.log("query:", query);
-			const doc = query.doc(id);
-			console.log("doc:", doc);
-			console.log("docID:", doc.id);
-			if (!doc.exists) {
-				console.log(`Error al actualizar el objeto con id: ${id}`);
-				throw new Error(`No existe el objeto con id: ${id}`);
-			}
+			query.doc(id).set(object);
 
-			const item = await doc.get();
-			item.update(object);
+			return object;
 		} catch (err) {
 			console.log(err);
 			throw new Error(`Error al actualizar el objeto con id: ${id}`);
