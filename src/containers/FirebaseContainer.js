@@ -22,7 +22,7 @@ export default class FirebaseContainer {
 			console.log(err);
 			throw new Error(`Error al intentar obtener todo: ${err}`);
 		}
-		console.log("results", results);
+
 		return results;
 	};
 
@@ -32,28 +32,30 @@ export default class FirebaseContainer {
 			const query = db.collection(this.collection);
 			const doc = await query.doc(id).get();
 
-			console.log("doc:", doc.length);
 			if (!doc.exists) {
 				console.log(`Error al listar por el id: ${id}`);
 			} else {
+				return { id, ...doc.data() };
 			}
 		} catch (err) {
 			console.log("error:", err);
+			throw new Error(`Error al intentar obtener por id: ${err}`);
 		}
 	};
 
-	deleteById(id) {
-		const db = admin.firestore();
-		const query = db.collection(this.collection);
-		const doc = query.doc(id);
-		const item = doc.get();
-		item
-			.delete()
-			.then((data) => console.log(`Se ha eliminado ${data} con el id ${id}`))
-			.catch((err) => console.log(err));
+	deleteById = async (id) => {
+		try {
+			const db = admin.firestore();
+			const query = db.collection(this.collection);
+			const doc = await query.doc(id).delete();
 
-		return item;
-	}
+			console.log(`Se ha eliminado ${doc} con el id ${id}`);
+			return `Se ha eliminado ${doc} con el id ${id}`;
+		} catch (err) {
+			console.log(err);
+			throw new Error(`Error al intentar obtener por id: ${err}`);
+		}
+	};
 
 	deleteAll = async () => {
 		try {
@@ -66,26 +68,29 @@ export default class FirebaseContainer {
 		}
 	};
 
-	updateById(id, object) {
+	updateById = async (id, object) => {
 		object.timestamp = new Date();
-		const db = admin.firestore();
-		const query = db.collection(this.collection);
-		const doc = query.doc(id);
-		if (!doc) {
-			console.log(`Error al actualizar el objeto con id: ${id}`);
-			throw new Error(`No existe el objeto con id: ${id}`);
-		}
-		let item = doc.get();
-		item
-			.update(object)
-			.then((data) => console.log(data))
-			.catch((err) => {
-				console.log(err);
-				throw new Error(`Error al actualizar el objeto con id: ${id}`);
-			});
-	}
+		console.log("object", object);
+		try {
+			const db = admin.firestore();
+			const query = db.collection(this.collection);
+			console.log("query:", query);
+			const doc = query.doc(id);
+			console.log("doc:", doc);
+			if (!doc.exists) {
+				console.log(`Error al actualizar el objeto con id: ${id}`);
+				throw new Error(`No existe el objeto con id: ${id}`);
+			}
 
-	saveOne(object) {
+			const item = await doc.get();
+			item.update(object);
+		} catch (err) {
+			console.log(err);
+			throw new Error(`Error al actualizar el objeto con id: ${id}`);
+		}
+	};
+
+	save(object) {
 		object.timestamp = new Date();
 		const db = admin.firestore();
 		const query = db.collection(this.collection);

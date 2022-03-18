@@ -13,7 +13,7 @@ if (`${process.env.DB}` === "firebase") {
 		"../../containers/MongoContainer.js"
 	);
 
-	productsDao = new ProductsDaoMongo("products");
+	productsDao = new ProductsDaoMongo("products", productSchema);
 }
 
 export default productsDao;

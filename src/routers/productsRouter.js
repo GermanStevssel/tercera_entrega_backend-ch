@@ -12,7 +12,7 @@ const authError = (req) => ({
 	description: `Ruta ${req.baseUrl} método ${req.method} no autorizada`,
 });
 
-// Endpoints Videogames
+// Endpoints products
 productsRouter.get("/", async (req, res) => {
 	res.json(await productsContainer.getAll());
 });
@@ -20,6 +20,7 @@ productsRouter.get("/", async (req, res) => {
 productsRouter.get("/:id", async (req, res) => {
 	const productId = req.params.id;
 	const product = await productsContainer.getById(productId);
+	console.log("product:", product);
 	if (product) {
 		res.send(product);
 	} else {
@@ -29,18 +30,17 @@ productsRouter.get("/:id", async (req, res) => {
 
 productsRouter.post("/", async (req, res) => {
 	if (administrador) {
-		res.json(await productsContainer.saveOne(req.body));
+		res.json(await productsContainer.save(req.body));
 	} else {
 		res.send(authError(req));
 	}
 });
 
 productsRouter.put("/:id", (req, res) => {
-	const productId = parseInt(req.params.id);
+	const productId = req.params.id;
 	if (administrador) {
 		productsContainer.updateById(productId, {
 			...req.body,
-			id: productId,
 		});
 		res.send(productsContainer.getById(productId));
 	} else {
@@ -48,10 +48,11 @@ productsRouter.put("/:id", (req, res) => {
 	}
 });
 
-productsRouter.delete("/:id", (req, res) => {
-	const productId = parseInt(req.params.id);
+productsRouter.delete("/:id", async (req, res) => {
+	const productId = req.params.id;
+	console.log("productId", productId);
 	administrador
-		? res.send(productsContainer.deleteById(productId))
+		? res.send(await productsContainer.deleteById(productId))
 		: res.send(authError);
 });
 
