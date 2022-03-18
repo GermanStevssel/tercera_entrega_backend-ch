@@ -22,9 +22,9 @@ productsRouter.get("/:id", async (req, res) => {
 	const product = await productsContainer.getById(productId);
 	console.log("product:", product);
 	if (product) {
-		res.send(product);
+		res.json(product);
 	} else {
-		res.send({ error: "producto no encontrado" });
+		res.json({ error: "producto no encontrado" });
 	}
 });
 

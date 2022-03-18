@@ -11,7 +11,7 @@ app.use(express.static("public"));
 app.use("/api/productos", productsRouter);
 app.use("/api/carrito", cartRouter);
 
-const PORT = 8080;
+const PORT = process.env.PORT;
 
 const server = app.listen(PORT, () => {
 	console.log(`Express is listening in port http://localhost:${PORT}`);
