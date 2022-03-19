@@ -7,66 +7,73 @@ mongoose.connect(`${config.mongodb.url}`);
 export default class MongoContainer {
 	constructor(collection, schema) {
 		this.collection = model(collection, schema);
-		this.object = [];
-	}
-	getAll() {
-		this.collection
-			.find({})
-			.then((data) => {
-				this.object = data;
-			})
-			.catch((err) => console.log(err));
-		return this.object.length
-			? this.object
-			: console.log("No hay nada cargado");
 	}
 
-	getById(id) {
-		let doc = this.collection.find(id);
-
-		if (!doc) {
-			throw new Error(`id ${id} no encontrado`);
+	getAll = async () => {
+		try {
+			const docs = await this.collection.find({});
+			console.log("length", docs.length);
+			return docs.length ? docs : console.log("No hay nada cargado");
+		} catch (err) {
+			throw new Error(`Error al obtener todo: ${err}`);
 		}
-		doc.then((data) => (this.object = data)).catch((err) => console.log(err));
+	};
 
-		return this.object.length
-			? this.object
-			: console.log("Objeto no encontrado");
-	}
+	getById = async (id) => {
+		try {
+			const doc = this.collection.findById(id);
 
-	deleteById(id) {
-		this.collection
-			.deleteOne({ id })
-			.then(() => console.log(`El objeto con id: ${id} se ha eliminado`))
-			.catch((err) => console.log(err));
-	}
-	deleteAll() {
-		this.collection
-			.deleteMany({})
-			.then(() => console.log("Se eliminaron todos los objetos"))
-			.catch((err) => console.log(err));
-	}
-	saveOne(object) {
+			if (!doc) {
+				throw new Error(`id ${id} no encontrado`);
+			}
+
+			return doc;
+		} catch (err) {
+			throw new Error(`Error al obtener por id: ${err}`);
+		}
+	};
+
+	deleteById = async (id) => {
+		try {
+			const removedDoc = await this.collection.deleteOne({ _id: id });
+			console.log(`El objeto con id: ${id} se ha eliminado`);
+			return removedDoc;
+		} catch (err) {
+			throw new Error(`Error al borrar id ${id}: ${err}`);
+		}
+	};
+
+	deleteAll = async () => {
+		try {
+			const allDeleted = await this.collection.deleteMany({});
+			return allDeleted;
+		} catch (err) {
+			throw new Error(`Error al borrar: ${err}`);
+		}
+	};
+
+	save = async (object) => {
 		object.timestamp = new Date();
-		this.collection
-			.create(object)
-			.then((data) => {
-				console.log(data);
-				return data;
-			})
-			.catch((err) => console.log(err));
-	}
+		try {
+			const savedDoc = await this.collection.create(object);
+			return savedDoc;
+		} catch {
+			throw new Error(`Error al guardar: ${err}`);
+		}
+	};
 
-	updateById(id, object) {
+	updateById = async (id, object) => {
 		object.timestamp = new Date();
-		this.collection
-			.updateOne(
-				{ id },
+		try {
+			const updatedDoc = await this.collection.updateOne(
+				{ id: id },
 				{
 					$set: object,
 				}
-			)
-			.then((data) => console.log(data))
-			.catch((err) => console.log(`Error al actualizar: ${err}`));
-	}
+			);
+			return updatedDoc;
+		} catch {
+			throw new Error(`Error al actualizar: ${err}`);
+		}
+	};
 }
