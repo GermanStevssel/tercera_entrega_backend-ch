@@ -66,7 +66,7 @@ export default class MongoContainer {
 		object.timestamp = new Date();
 		try {
 			const updatedDoc = await this.collection.updateOne(
-				{ id: id },
+				{ _id: id },
 				{
 					$set: object,
 				}
