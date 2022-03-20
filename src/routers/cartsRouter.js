@@ -61,13 +61,14 @@ cartRouter.delete("/:id/productos/:id_prod", async (req, res) => {
 	const productId = req.params.id_prod;
 	try {
 		const cart = await cartsContainer.getById(cartId);
-		const isInCart = cart.productos.some((product) => product.id === productId);
+		const isInCart = await cart.productos.some(
+			(producto) => producto._id.toString() === productId
+		);
 
 		if (isInCart) {
 			cart.productos = cart.productos.filter(
-				(producto) => producto.id !== productId
+				(producto) => producto._id.toString() !== productId
 			);
-			cart.products;
 			res.json(await cartsContainer.updateById(req.params.id, cart));
 		} else {
 			throw new Error(`El producto ${productId} no esta en el carrito`);

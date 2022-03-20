@@ -57,7 +57,7 @@ export default class MongoContainer {
 		try {
 			const savedDoc = await this.collection.create(object);
 			return savedDoc;
-		} catch {
+		} catch (err) {
 			throw new Error(`Error al guardar: ${err}`);
 		}
 	};
