@@ -5,13 +5,13 @@ const LocalStrategy = Strategy;
 import User from "../schema/user.schema";
 
 const customFields = {
-	usernameField: "mail",
+	usernameField: "email",
 	passwordField: "password",
 };
 
-const verifyCallback = async (mail, password, done) => {
+const verifyCallback = async (email, password, done) => {
 	try {
-		const user = await User.findOne({ mail });
+		const user = await User.findOne({ email });
 		if (!user) {
 			return done(null, false);
 		}

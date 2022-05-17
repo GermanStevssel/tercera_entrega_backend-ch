@@ -1,8 +1,7 @@
 import { Router } from "express";
-import bcrypt from "bcrypt";
+import passport from "passport";
 import Users from "../schema/users.schema.js";
 import isRegistered from "../utils/isRegistered.js";
-import generateToken from "../utils/generateToken.js";
 import { logger } from "../utils/winston/index.js";
 
 export const registerRouter = Router();

@@ -15,4 +15,10 @@ export const config = {
 		auth_provider_x509_cert_url: process.env.AUTH_PROVIDER_X509_CERT_URL,
 		client_x509_cert_url: process.env.CLIENT_X509_CERT_URL,
 	},
+	mail: {
+		MAIL_ETH_HOST: process.env.MAIL_ETH_HOST,
+		MAIL_ETH_PORT: process.env.MAIL_ETH_PORT,
+		MAIL_ETH_USER: process.env.MAIL_ETH_USER,
+		MAIL_ETH_PASS: process.env.MAIL_ETH_PASS,
+	},
 };
