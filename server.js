@@ -15,6 +15,7 @@ import { productsRouter } from "./routers/productsRouter.js";
 import { cartRouter } from "./routers/cartsRouter.js";
 import { config } from "./config/index.js";
 import { logger } from "./utils/winston/index.js";
+import { webRouter } from "./routers/webRouter.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -86,7 +87,7 @@ app.use("/api/productos", productsRouter);
 app.use("/api/carrito", cartRouter);
 // app.use("/info", infoRouter);
 // app.use("/api/randoms", randomRouter);
-// app.use("/", webRouter);
+app.use("/", webRouter);
 app.get("*", (req, res) => {
 	logger.log("warn", `ruta inexistente`);
 	res.status(404).json({
