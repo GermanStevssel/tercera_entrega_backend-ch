@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="#" />
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <title>Perfil</title>
+  </head>
+  <body>
+    <div class="card" style="width: 18rem">
+      <div class="card-body">
+        <img src="/users_photos/<%= user.photo %>"
+        class="card-img-top" alt="Foto perfil" />
+        <h5 id=" <%= user.name %>" class="card-title">Nombre: <%= user.name %></h5>
+        <p class="card-text">Telefono: <%= user.phone %></p>
+        <p class="card-text">Fecha de nacimiento: <%= user.birthDate %></p>
+        <p class="card-text">Dirección: <%= user.address %></p>
+      </div>
+    </div>
+  </body>
+</html>

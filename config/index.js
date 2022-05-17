@@ -2,6 +2,7 @@ export const config = {
 	mongodb: {
 		url: process.env.mongoURI,
 	},
+	session: { secret: process.env.SESSION_SECRET },
 	firebase: {
 		type: process.env.TYPE,
 		project_id: process.env.PROJECT_ID,
