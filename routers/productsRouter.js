@@ -1,7 +1,7 @@
 import { Router } from "express";
 import productsDao from "../daos/products/products.daos.js";
 
-export const productsRouter = Router();
+const productsRouter = Router();
 
 const productsContainer = productsDao;
 
@@ -18,13 +18,19 @@ productsRouter.get("/", async (req, res) => {
 });
 
 productsRouter.get("/:id", async (req, res) => {
-	const productId = req.params.id;
-	const product = await productsContainer.getById(productId);
-	console.log("product:", product);
-	if (product) {
-		res.json(product);
-	} else {
-		res.json({ error: "producto no encontrado" });
+	try {
+		const productId = req.params.id;
+		const product = await productsContainer.getById(productId);
+
+		if (!product) {
+			return res.status(400).json({ error: "producto no encontrado" });
+		}
+
+		res.cookie("id", product._id);
+		res.render("product", { product });
+	} catch (err) {
+		ogger.error(`Error al obtener producto. ${err}`);
+		return res.status(500).json({ error_description: "Error del servidor." });
 	}
 });
 
@@ -62,3 +68,5 @@ productsRouter.delete("/", async (req, res) => {
 		res.send(authError(req));
 	}
 });
+
+export default productsRouter;
