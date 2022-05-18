@@ -11,7 +11,7 @@ import { Server as IOServer } from "socket.io";
 import passport from "passport";
 import cluster from "cluster";
 import os from "os";
-import { productsRouter } from "./routers/productsRouter.js";
+import productsRouter from "./routers/productsRouter.js";
 import { cartRouter } from "./routers/cartsRouter.js";
 import { config } from "./config/index.js";
 import { logger } from "./utils/winston/index.js";

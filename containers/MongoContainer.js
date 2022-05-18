@@ -73,7 +73,7 @@ export default class MongoContainer {
 			);
 			return updatedDoc;
 		} catch {
-			throw new Error(`Error al actualizar: ${err}`);
+			logger.error(`Error al actualizar: ${err}`);
 		}
 	};
 
