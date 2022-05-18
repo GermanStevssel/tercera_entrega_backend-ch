@@ -32,7 +32,7 @@ export const signUpEmail = async (newUser) => {
 	}
 };
 
-export const checkOutEMail = async (newOrder) => {
+export const checkOutEmail = async (newOrder) => {
 	const mailOptions = {
 		from: "orders@center.com",
 		to: TEST_MAIL,

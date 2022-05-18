@@ -1,12 +1,10 @@
 import { Router } from "express";
 import { isAuth } from "../utils/auth.js";
-import productSchema from "../schema/products.schema.js";
-import mongoose from "mongoose";
+import Products from "../schema/products.schema.js";
 import { logger } from "../utils/winston/index.js";
 import ProductsForIndexDTO from "../dto/productsDTO.js";
 
 export const webRouter = Router();
-const Products = mongoose.model("products", productSchema);
 
 webRouter.get("/", isAuth, async (req, res) => {
 	const user = req.user;

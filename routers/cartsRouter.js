@@ -1,6 +1,11 @@
 import { Router } from "express";
+import { isAuth } from "../utils/auth.js";
 import cartsDao from "../daos/carts/carts.daos.js";
 import productsDao from "../daos/products/products.daos.js";
+import {
+	getCartProducts,
+	deleteProduct,
+} from "../controllers/cart.controller.js";
 
 export const cartRouter = Router();
 
@@ -9,14 +14,14 @@ const productsContainer = productsDao;
 
 // Endpoints Cart
 
-cartRouter.get("/", async (req, res) => {
-	res.json(await cartsContainer.getAll());
-});
+cartRouter.get("/", isAuth, getCart);
+
+cartRouter.delete("/:id", isAuth, deleteProduct);
 
 cartRouter.get("/:id", async (req, res) => {
 	const cartId = req.params.id;
 	const cart = await cartsContainer.getById(cartId);
-
+	s;
 	if (cart) {
 		res.json(cart);
 	} else {
@@ -49,11 +54,6 @@ cartRouter.post("/:id/productos", async (req, res) => {
 
 cartRouter.delete("/", async (req, res) => {
 	res.send(await cartsContainer.deleteAll());
-});
-
-cartRouter.delete("/:id", async (req, res) => {
-	const cartId = req.params.id;
-	res.send(await cartsContainer.deleteById(cartId));
 });
 
 cartRouter.delete("/:id/productos/:id_prod", async (req, res) => {
