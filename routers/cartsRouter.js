@@ -14,7 +14,7 @@ const productsContainer = productsDao;
 
 // Endpoints Cart
 
-cartRouter.get("/", isAuth, getCart);
+cartRouter.get("/", isAuth, getCartProducts);
 
 cartRouter.delete("/:id", isAuth, deleteProduct);
 

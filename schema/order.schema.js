@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
-import { string } from "yargs";
 
-const OrderSchema = mongoose.schema({
-	userName: { type: string, require: true, trim: true, min: 4 },
+const OrderSchema = mongoose.Schema({
+	userName: { type: String, require: true, trim: true, min: 4 },
 	products: [],
 	userEmail: {
 		type: String,
@@ -11,8 +10,8 @@ const OrderSchema = mongoose.schema({
 		trim: true,
 		lowercase: true,
 	},
-	date: { type: string, require: true, trim: true },
-	state: { type: string, require: true, trim: true },
+	date: { type: String, require: true, trim: true },
+	state: { type: String, require: true, trim: true },
 });
 
 const Orders = mongoose.model("orders", OrderSchema);

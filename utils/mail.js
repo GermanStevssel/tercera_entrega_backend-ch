@@ -1,5 +1,5 @@
 import { createTransport } from "nodemailer";
-import config from "../config/index.js";
+import { config } from "../config/index.js";
 
 const TEST_MAIL = config.mail.MAIL_ETH_USER;
 

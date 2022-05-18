@@ -1,9 +1,9 @@
-import Orders from "../schema/order.schema";
-import Products from "../schema/products.schema";
-import { logger } from "../utils/winston";
+import Orders from "../schema/order.schema.js";
+import Products from "../schema/products.schema.js";
+import { logger } from "../utils/winston/index.js";
 import moment from "moment";
-import { checkOutSms, checkOutWhatsapp } from "../utils/sms_wsp";
-import { checkOutEmail } from "../utils/mail";
+import { checkOutSms, checkOutWhatsapp } from "../utils/sms_wsp.js";
+import { checkOutEmail } from "../utils/mail.js";
 
 export const checkout = async (req, res) => {
 	const user = req.user;

@@ -1,4 +1,4 @@
-import productSchema from "../../schema/products.schema.js";
+import { productSchema } from "../../schema/products.schema.js";
 
 let productsDao;
 
