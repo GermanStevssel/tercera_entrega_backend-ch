@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 
 export const productSchema = new mongoose.Schema({
-	id: { type: String, required: true },
-	timestamp: { type: String, required: true, max: 1000 },
+	timestamp: { type: String, max: 1000 },
 	name: { type: String, required: true, max: 100 },
 	description: { type: String, required: true, max: 100 },
 	code: { type: String, required: true },

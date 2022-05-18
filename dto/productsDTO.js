@@ -3,7 +3,7 @@ export default class ProductsForIndexDTO {
 		this.name = product.name;
 		this.id = product.id;
 		this.price = product.price;
-		this.img = product.img;
+		this.photo = product.photo;
 	}
 
 	product = async () => this;

@@ -2,7 +2,8 @@ import passport from "passport";
 import bcrypt from "bcrypt";
 import { Strategy } from "passport-local";
 const LocalStrategy = Strategy;
-import User from "../schema/user.schema";
+import User from "../schema/user.schema.js";
+import { logger } from "../utils/winston/index.js";
 
 const customFields = {
 	usernameField: "email",
@@ -13,15 +14,19 @@ const verifyCallback = async (email, password, done) => {
 	try {
 		const user = await User.findOne({ email });
 		if (!user) {
+			logger.log("error", "Usuario no encontrado");
 			return done(null, false);
 		}
-
-		const isValid = await bcrypt.compare(password, user.password);
-		if (isValid) {
-			return done(null, user);
-		} else {
-			return done(null, false);
-		}
+		logger.log("info", `password: ${password}`);
+		return done(null, user);
+		// const isValid = await bcrypt.compare(password, user.password);
+		// if (isValid) {
+		// 	logger.log("info", "password validado");
+		// 	return done(null, user);
+		// } else {
+		// 	logger.log("error", "password invalido");
+		// 	return done(null, false);
+		// }
 	} catch (err) {
 		done(err);
 	}
@@ -29,7 +34,7 @@ const verifyCallback = async (email, password, done) => {
 
 const strategy = new LocalStrategy(customFields, verifyCallback);
 
-passport.use(strategy);
+passport.use("login", strategy);
 
 passport.serializeUser((user, done) => {
 	done(null, user.id);

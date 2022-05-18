@@ -20,7 +20,7 @@ export const checkOutSms = async (userPhone) => {
 		logger.log(err);
 	}
 };
-export const checkOutWhatsapp = async (order) => {
+export const checkOutWhatsapp = async (order, userPhone) => {
 	try {
 		const message = await client.messages.create({
 			body: `nuevo pedido de ${order.userName}, ${order.userEmail}`,

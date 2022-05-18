@@ -13,7 +13,7 @@ const userRouter = Router();
 userRouter.post("/signup", multer.single("photo"), isRegistered, signUp);
 userRouter.post(
 	"/login",
-	passport.authenticate("local", {
+	passport.authenticate("login", {
 		failureRedirect: "/login-error",
 		successRedirect: "/",
 	})
@@ -39,8 +39,10 @@ userRouter.get("/login-error", isNotAuth, (req, res) => {
 });
 
 userRouter.get("/logout", (req, res, next) => {
+	const name = req.session.name;
+	logger.log("info", `name: ${name}`);
 	req.logout();
-	res.render("logout");
+	res.render("logout", { name });
 });
 
 export default userRouter;

@@ -1,9 +1,7 @@
 import mongoose from "mongoose";
 
-const cartSchema = new mongoose.Schema({
-	id: { type: String, required: true, max: 100 },
-	timestamp: { type: String, required: true, max: 100 },
-	products: { type: Array, required: true, max: 100 },
+const cartSchema = mongoose.Schema({
+	product: { type: mongoose.Schema.ObjectId, ref: "products" },
 	quantity: { type: Number, require: true, trim: true },
 });
 

@@ -3,6 +3,7 @@ import { isAuth } from "../utils/auth.js";
 import Products from "../schema/products.schema.js";
 import { logger } from "../utils/winston/index.js";
 import ProductsForIndexDTO from "../dto/productsDTO.js";
+import User from "../schema/user.schema.js";
 
 export const webRouter = Router();
 

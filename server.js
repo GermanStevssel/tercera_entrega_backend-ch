@@ -7,7 +7,6 @@ import { fileURLToPath } from "url";
 import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
 import { Server as HttpServer } from "http";
-import { Server as IOServer } from "socket.io";
 import passport from "passport";
 import cluster from "cluster";
 import os from "os";
@@ -17,6 +16,8 @@ import { config } from "./config/index.js";
 import { logger } from "./utils/winston/index.js";
 import { webRouter } from "./routers/webRouter.js";
 import orderRouter from "./routers/ordersRouter.js";
+import "./config/passport.js";
+import userRouter from "./routers/usersRouter.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,7 +25,6 @@ const __dirname = path.dirname(__filename);
 // ---- Instancia de servidor y socket -----
 const app = express();
 const httpServer = new HttpServer(app);
-const io = new IOServer(httpServer);
 
 // ----- Configuración Server -----
 app.use(json());
@@ -36,35 +36,7 @@ app.use(cors(`${config.cors}`));
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 
-// ---- Passport ----
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-// ----- Configuración Socket -----
-io.on("connection", async (socket) => {
-	logger.log("info", "Nuevo cliente conectado!");
-
-	socket.emit("messages", normalizer(await mongoMessages.getAll()));
-
-	socket.on("message", async (message) => {
-		const { author, text } = message;
-		const newMessage = {
-			author,
-			text,
-			fecha: moment(new Date()).format("DD/MM/YYY HH:mm:ss"),
-		};
-
-		await mongoMessages.save({
-			author: newMessage.author,
-			text: newMessage.text,
-			fecha: newMessage.fecha,
-		});
-		io.sockets.emit("message", newMessage);
-	});
-});
-
-// ----- Rutas -----
+// ---- Session ----
 app.use(
 	session({
 		store: MongoStore.create({
@@ -82,19 +54,25 @@ app.use(
 		},
 	})
 );
-// app.use("/register", registerRouter);
-// app.use("/login", loginRouter);
+
+// ---- Passport ----
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// ----- Rutas -----
 app.use("/api/productos", productsRouter);
 app.use("/api/carrito", cartRouter);
-app.use("/api/", orderRouter);
+app.use(userRouter);
+app.use("/api/order", orderRouter);
 app.use("/", webRouter);
-app.get("*", (req, res) => {
-	logger.log("warn", `ruta inexistente`);
-	res.status(404).json({
-		error: -2,
-		description: `ruta ${req.originalUrl} método get no implementado`,
-	});
-});
+// app.get("*", (req, res) => {
+// 	logger.log("warn", `ruta inexistente`);
+// 	res.status(404).json({
+// 		error: -2,
+// 		description: `ruta ${req.originalUrl} método get no implementado`,
+// 	});
+// });
 
 const numCPUs = os.cpus().length;
 const PORT = process.env.PORT || 8080;

@@ -1,4 +1,4 @@
-import Users from "../schema/users.schema.js";
+import Users from "../schema/user.schema.js";
 
 const isRegistered = async (req, res, next) => {
 	const { email } = req.body;

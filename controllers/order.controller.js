@@ -10,7 +10,7 @@ export const checkout = async (req, res) => {
 
 	try {
 		const productsInCart = await Promise.all(
-			cart.map(async (elem) => {
+			user.cart.map(async (elem) => {
 				const product = await Products.findById(elem.product);
 				return {
 					product: product.name,
@@ -23,16 +23,16 @@ export const checkout = async (req, res) => {
 			userName: user.name,
 			products: productsInCart,
 			userEmail: user.email,
-			date: moment(new Date().format("DD/MM/YY HH:mm")),
+			date: moment(new Date()).format("DD/MM/YY HH:mm"),
 		});
-		cart = [];
+		user.cart = [];
 		checkOutEmail(order);
 		checkOutSms(user.phone);
-		checkOutWhatsapp(order);
+		checkOutWhatsapp(order, user.phone);
 		await user.save();
 		await order.save();
 
-		res.redirect("/orderSuccess");
+		res.redirect("/api/order/orderSuccess");
 	} catch (err) {
 		logger.error(`Error al generar pedido. ${err}`);
 		return res.status(500).json({ error_description: "Error del servidor." });

@@ -50,3 +50,26 @@
 	border-color: rgb(10, 168, 71);
 	border-radius: 5px;
 }
+
+.ver-producto__container {
+  display: flex;
+  justify-content: center;
+}
+
+.ver-producto__container .ver-producto{
+ width: 30%;
+}
+
+.volver {
+  position: absolute;
+  float: left;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 3rem;
+  min-height: calc(100% - 56px) ;
+  margin: auto;
+}

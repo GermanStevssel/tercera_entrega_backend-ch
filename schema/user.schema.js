@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import { config } from "../config/index,.js";
-import cartSchema from "./carts.schema";
+import { config } from "../config/index.js";
+import cartSchema from "./carts.schema.js";
+import { logger } from "../utils/winston/index.js";
 
 const { model } = mongoose;
 mongoose.connect(`${config.mongodb.url}`);
@@ -18,9 +19,9 @@ const userSchema = new mongoose.Schema({
 });
 
 // encriptar password antes de guardar
-userSchema.pre("save", async () => {
+userSchema.pre("save", async function () {
 	const user = this;
-
+	logger.log("info", `User: ${user}`);
 	if (user.isModified("password")) {
 		user.password = await bcrypt.hash(user.password, 10);
 	}

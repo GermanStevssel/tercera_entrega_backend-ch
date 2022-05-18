@@ -27,11 +27,9 @@ export const getProduct = async (req, res) => {
 		if (!product) {
 			return res.status(400).json({ error: "producto no encontrado" });
 		}
-
-		res.cookie("id", product._id);
+		res.cookie("id", product.id);
 		res.render("product", { product });
 	} catch (err) {
-		ogger.error(`Error al obtener producto. ${err}`);
 		return res.status(500).json({ error_description: "Error del servidor." });
 	}
 };
@@ -75,6 +73,7 @@ export const createProduct = async (req, res) => {
 export const addProductToCart = async (req, res) => {
 	try {
 		const productId = req.cookies.id;
+
 		const { quantity } = req.body;
 		const user = req.user;
 		productsContainer.addProductToCart(productId, quantity, user);
