@@ -21,4 +21,8 @@ export const config = {
 		MAIL_ETH_USER: process.env.MAIL_ETH_USER,
 		MAIL_ETH_PASS: process.env.MAIL_ETH_PASS,
 	},
+	twilio: {
+		accountSid: process.env.TWILIO_ACCOUNTSID,
+		authToken: process.env.TWILIO_AUTHTOKEN,
+	},
 };

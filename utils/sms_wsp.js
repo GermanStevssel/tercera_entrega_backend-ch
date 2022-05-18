@@ -1,8 +1,9 @@
 import twilio from "twilio";
+import { config } from "../config/index.js";
 import { logger } from "./winston/index.js";
 
-const accountSid = "AC35ecd3af856825d93aba4501fb635217";
-const authToken = "97630c93379dae7531d37bc7b4618a06";
+const accountSid = config.twilio.accountSid;
+const authToken = config.twilio.authToken;
 
 const client = twilio(accountSid, authToken, {
 	lazyLoading: true,
