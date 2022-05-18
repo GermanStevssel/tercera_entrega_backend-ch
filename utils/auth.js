@@ -19,7 +19,7 @@ export const isAdmin = (req, res, next) => {
 		next();
 	} else {
 		res.status(401).json({
-			msg: "No estas autorizado para ver esta sección, y que no eres administrador",
+			msg: "No estas autorizado para ver esta sección, ya que no eres administrador",
 		});
 	}
 };
