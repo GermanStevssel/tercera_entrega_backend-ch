@@ -32,7 +32,7 @@ In order to run and contribute with this project, you need to:
 $ npm start
 ```
 
-4. Now, the server should be runing. Go to _http://localhost:8080_, sign up and
+4. Now, the server should be running. Go to _http://localhost:8080_, sign up and
    log in.
 
 ### Tools & Dependencies
