@@ -14,7 +14,18 @@
     <title>Perfil</title>
   </head>
   <body>
-    <div class="card" style="width: 18rem">
+    <div class="container-fluid bienvenido">
+      <a href="/" class="btn btn-primary volver">inicio</a>
+      <a href="/logout" class="logout-perfil">
+        <button class="btn btn-primary desloguear">
+          Log out
+        </button>
+      </a>
+      <div class="container bienvenido-content d-flex justify-content-center">
+        <h1>Mi Perfil</h1>
+      </div>
+    </div>
+    <div class="card d-flex justify-content-center mt-5" style="width: 18rem; margin: auto;">
       <div class="card-body">
         <img src="/users_photos/<%= user.photo %>"
         class="card-img-top" alt="Foto perfil" />

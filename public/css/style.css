@@ -73,3 +73,8 @@
   min-height: calc(100% - 56px) ;
   margin: auto;
 }
+
+.logout-perfil {
+  position: absolute;
+  right: 30px
+}

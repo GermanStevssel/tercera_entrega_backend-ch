@@ -22,7 +22,7 @@ import userRouter from "./routers/usersRouter.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ---- Instancia de servidor y socket -----
+// ---- Instancia de servidor -----
 const app = express();
 const httpServer = new HttpServer(app);
 
