@@ -14,3 +14,27 @@ export const signUp = async (req, res) => {
 		logger.error(`Error al registrar usuario. ${error}`);
 	}
 };
+
+export const login = (req, res) => {
+	res.render("login");
+};
+
+export const profile = (req, res) => {
+	const user = req.user;
+	res.render("profile", { user });
+};
+
+export const logout = (req, res, next) => {
+	const name = req.session.name;
+	logger.log("info", `name: ${name}`);
+	req.logout();
+	res.render("logout", { name });
+};
+
+export const loginError = (req, res) => {
+	res.render("login-error");
+};
+
+export const signupGet = (req, res) => {
+	res.render("signup");
+};

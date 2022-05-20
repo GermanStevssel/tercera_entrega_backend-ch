@@ -17,16 +17,19 @@ const verifyCallback = async (email, password, done) => {
 			logger.log("error", "Usuario no encontrado");
 			return done(null, false);
 		}
+		logger.log("info", `User: ${user}`);
 		logger.log("info", `password: ${password}`);
-		return done(null, user);
-		// const isValid = await bcrypt.compare(password, user.password);
-		// if (isValid) {
-		// 	logger.log("info", "password validado");
-		// 	return done(null, user);
-		// } else {
-		// 	logger.log("error", "password invalido");
-		// 	return done(null, false);
-		// }
+		logger.log("info", `User password: ${user.password}`);
+		// return done(null, user);
+		const isValid = await bcrypt.compare(password, user.password);
+		logger.log("info", `isValid: ${isValid}`);
+		if (isValid) {
+			logger.log("info", "password validado");
+			return done(null, user);
+		} else {
+			logger.log("error", "password invalido");
+			return done(null, false);
+		}
 	} catch (err) {
 		done(err);
 	}
