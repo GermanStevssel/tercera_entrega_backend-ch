@@ -3,7 +3,7 @@ import { logger } from "../utils/winston/index.js";
 import { config } from "../config/index.js";
 
 const { model } = mongoose;
-// mongoose.connect(`${config.mongodb.url}`);
+mongoose.connect(`${config.mongodb.url}`);
 
 export default class MongoContainer {
 	constructor(collection, schema) {

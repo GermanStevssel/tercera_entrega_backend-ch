@@ -16,6 +16,7 @@ export const signUp = async (req, res) => {
 };
 
 export const login = (req, res) => {
+	logger.log("info", `Usuario logueado`);
 	res.render("login");
 };
 
@@ -26,12 +27,13 @@ export const profile = (req, res) => {
 
 export const logout = (req, res, next) => {
 	const name = req.session.name;
-	logger.log("info", `name: ${name}`);
+	logger.log("info", `Usuario deslogueado`);
 	req.logout();
 	res.render("logout", { name });
 };
 
 export const loginError = (req, res) => {
+	logger.log("error", `Usuario deslogueado`);
 	res.render("login-error");
 };
 

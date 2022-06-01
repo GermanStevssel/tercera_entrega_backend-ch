@@ -10,14 +10,14 @@ import { Server as HttpServer } from "http";
 import passport from "passport";
 import cluster from "cluster";
 import os from "os";
-import productsRouter from "./routers/productsRouter.js";
-import { cartRouter } from "./routers/cartsRouter.js";
 import { config } from "./config/index.js";
 import { logger } from "./utils/winston/index.js";
+import productsRouter from "./routers/productsRouter.js";
+import { cartRouter } from "./routers/cartsRouter.js";
 import { webRouter } from "./routers/webRouter.js";
 import orderRouter from "./routers/ordersRouter.js";
-import "./config/passport.js";
 import userRouter from "./routers/usersRouter.js";
+import "./config/passport.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,13 +66,6 @@ app.use("/api/carrito", cartRouter);
 app.use(userRouter);
 app.use("/api/order", orderRouter);
 app.use("/", webRouter);
-// app.get("*", (req, res) => {
-// 	logger.log("warn", `ruta inexistente`);
-// 	res.status(404).json({
-// 		error: -2,
-// 		description: `ruta ${req.originalUrl} método get no implementado`,
-// 	});
-// });
 
 const numCPUs = os.cpus().length;
 const PORT = process.env.PORT || 8080;
@@ -94,7 +87,7 @@ if (mode === "CLUSTER") {
 		logger.log("info", `Master -> PID: ${process.pid}`);
 
 		// Workers
-		console.log("cpus..", numCPUs);
+		logger.log("info", `CPUs: ${numCPUs}`);
 		for (let i = 0; i < numCPUs; i++) {
 			cluster.fork();
 		}
