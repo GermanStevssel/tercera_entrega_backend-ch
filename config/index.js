@@ -1,4 +1,5 @@
 export const config = {
+	environment: process.env.NODE_ENV,
 	mongodb: {
 		url: process.env.mongoURI,
 	},

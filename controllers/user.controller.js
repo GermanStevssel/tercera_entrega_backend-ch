@@ -31,7 +31,7 @@ export const logout = (req, res) => {
 };
 
 export const loginError = (req, res) => {
-	logger.log("error", `Usuario deslogueado`);
+	logger.log("error", `Error en las credenciales del usuario`);
 	res.render("login-error");
 };
 

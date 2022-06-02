@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import { config } from "../config/index.js";
 import cartSchema from "./carts.schema.js";
 import { logger } from "../utils/winston/index.js";
 

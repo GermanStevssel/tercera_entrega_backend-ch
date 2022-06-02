@@ -3,7 +3,6 @@ import express, { json, urlencoded } from "express";
 import session from "express-session";
 import cors from "cors";
 import path from "path";
-import "./config/db.js";
 import { fileURLToPath } from "url";
 import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
@@ -18,6 +17,7 @@ import { cartRouter } from "./routers/cartsRouter.js";
 import { webRouter } from "./routers/webRouter.js";
 import orderRouter from "./routers/ordersRouter.js";
 import userRouter from "./routers/usersRouter.js";
+import "./config/db.js";
 import "./config/passport.js";
 
 const __filename = fileURLToPath(import.meta.url);
