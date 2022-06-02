@@ -14,7 +14,7 @@ export const getProducts = async (req, res) => {
 	try {
 		res.json(await productsContainer.getAll());
 	} catch (err) {
-		logger.error(`Error al listar productos. ${err}`);
+		logger.log("error", `Error al listar productos. ${err}`);
 		return res.status(500).json({ error_description: "Error del servidor." });
 	}
 };
@@ -53,7 +53,7 @@ export const updateProduct = async (req, res) => {
 			.status(400)
 			.send({ error_description: "Producto no encontrado." });
 	} catch (err) {
-		logger.error(`Error al actualizar producto. ${err}`);
+		logger.log("error", `Error al actualizar producto. ${err}`);
 		return res.status(500).json({ error_description: "Error del servidor." });
 	}
 };
@@ -65,7 +65,7 @@ export const createProduct = async (req, res) => {
 
 		return res.status(201).json({ product: newProduct });
 	} catch (err) {
-		logger.error(`Error al crear producto. ${err}`);
+		logger.log("error", `Error al crear producto. ${err}`);
 		return res.status(500).json({ error_description: "Error del servidor." });
 	}
 };
@@ -79,7 +79,7 @@ export const addProductToCart = async (req, res) => {
 		productsContainer.addProductToCart(productId, quantity, user);
 		res.redirect("/");
 	} catch (err) {
-		logger.error(`Error al agregar producto carrito. ${err}`);
+		logger.log("error", `Error al agregar producto carrito. ${err}`);
 		return res.status(500).json({ error_description: "Error del servidor." });
 	}
 };
@@ -94,7 +94,7 @@ export const deleteProduct = async (req, res) => {
 		}
 		res.status(200).json({ product });
 	} catch (err) {
-		logger.error(`Error al borrar producto. ${err}`);
+		logger.log("error", `Error al borrar producto. ${err}`);
 		return res.status(500).json({ error_description: "Error del servidor." });
 	}
 };
@@ -106,7 +106,7 @@ export const deleteAll = async (req, res) => {
 		}
 		res.status(200).send(await productsContainer.deleteAll());
 	} catch (err) {
-		logger.error(`Error al borrar los productos. ${err}`);
+		logger.log("error", `Error al borrar los productos. ${err}`);
 		return res.status(500).json({ error_description: "Error del servidor." });
 	}
 };

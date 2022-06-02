@@ -11,6 +11,6 @@ webRouter.get("/", isAuth, async (req, res) => {
 		const products = await Products.find({});
 		res.render("index", { user, products });
 	} catch (error) {
-		logger.error(`Error al listar productos. ${error}`);
+		logger.log("error", `Error al listar productos. ${error}`);
 	}
 });

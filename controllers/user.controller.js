@@ -12,7 +12,7 @@ export const signUp = async (req, res) => {
 		logger.log("info", `Usuario ${newUser.email} registrado`);
 		res.redirect("/login");
 	} catch (error) {
-		logger.error(`Error al registrar usuario. ${error}`);
+		logger.log("error", `Error al registrar usuario. ${error}`);
 	}
 };
 

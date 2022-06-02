@@ -34,7 +34,7 @@ export const checkout = async (req, res) => {
 
 		res.redirect("/api/order/orderSuccess");
 	} catch (err) {
-		logger.error(`Error al generar pedido. ${err}`);
+		logger.log("error", `Error al generar pedido. ${err}`);
 		return res.status(500).json({ error_description: "Error del servidor." });
 	}
 };
