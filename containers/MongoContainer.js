@@ -15,7 +15,7 @@ export default class MongoContainer {
 			const docs = await this.collection.find({});
 			return docs.length ? docs : console.log("No hay nada cargado");
 		} catch (err) {
-			logger.error(`Error al obtener todo: ${err}`);
+			logger.log("error", `Error al obtener todo: ${err}`);
 		}
 	};
 
@@ -24,12 +24,12 @@ export default class MongoContainer {
 			const doc = this.collection.findById(id);
 
 			if (!doc) {
-				logger.error(`id ${id} no encontrado`);
+				logger.log("error", `id ${id} no encontrado`);
 			}
 
 			return doc;
 		} catch (err) {
-			logger.error(`Error al obtener por id: ${err}`);
+			logger.log("error", `Error al obtener por id: ${err}`);
 		}
 	};
 
@@ -39,7 +39,7 @@ export default class MongoContainer {
 			console.log(`El objeto con id: ${id} se ha eliminado`);
 			return removedDoc;
 		} catch (err) {
-			logger.error(`Error al borrar id ${id}: ${err}`);
+			logger.log("error", `Error al borrar id ${id}: ${err}`);
 		}
 	};
 
@@ -48,7 +48,7 @@ export default class MongoContainer {
 			const allDeleted = await this.collection.deleteMany({});
 			return allDeleted;
 		} catch (err) {
-			logger.error(`Error al borrar: ${err}`);
+			logger.log("error", `Error al borrar: ${err}`);
 		}
 	};
 
@@ -73,7 +73,7 @@ export default class MongoContainer {
 			);
 			return updatedDoc;
 		} catch {
-			logger.error(`Error al actualizar: ${err}`);
+			logger.log("error", `Error al actualizar: ${err}`);
 		}
 	};
 

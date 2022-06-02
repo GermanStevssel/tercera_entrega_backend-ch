@@ -75,7 +75,7 @@ if (mode === "FORK") {
 	const server = httpServer.listen(PORT, () => {
 		logger.log(
 			"info",
-			`Server is up in port http://localhost:${PORT} || Worker ${process.pid} started!`
+			`Server is up in port ${PORT} || Worker ${process.pid} started!`
 		);
 	});
 	server.on("error", (error) => logger.log("error", `Server error: ${error}`));

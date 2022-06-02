@@ -16,7 +16,7 @@ export const getCartProducts = async (req, res) => {
 		);
 		res.render("cart", { cartArray });
 	} catch (err) {
-		logger.error(`Error al obtener carrito. ${err}`);
+		logger.log("error", `Error al obtener carrito. ${err}`);
 		return res.status(500).json({ error_description: "Error del servidor." });
 	}
 };
@@ -39,7 +39,7 @@ export const deleteCartProduct = async (req, res) => {
 		await user.save();
 		res.redirect("/api/carrito");
 	} catch (error) {
-		logger.error(`Error al borrar producto del carrito. ${error}`);
+		logger.log("error", `Error al borrar producto del carrito. ${error}`);
 		return res.status(500).json({ error_description: "Error del servidor." });
 	}
 };

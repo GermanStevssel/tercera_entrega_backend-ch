@@ -1,5 +1,6 @@
 import { createTransport } from "nodemailer";
 import { config } from "../config/index.js";
+import { logger } from "./winston/index.js";
 
 const transporter = createTransport({
 	host: config.mail.MAIL_ETH_HOST,
@@ -26,7 +27,7 @@ export const signUpEmail = async (newUser) => {
 	try {
 		await transporter.sendMail(mailOptions);
 	} catch (err) {
-		logger.error(`Error al enviar email de registro. ${err}`);
+		logger.log("error", `Error al enviar email de registro. ${err}`);
 	}
 };
 
@@ -44,6 +45,6 @@ export const checkOutEmail = async (newOrder) => {
 	try {
 		await transporter.sendMail(mailOptions);
 	} catch (err) {
-		logger.error(`Error al enviar email de pedido. ${err}`);
+		logger.log("error", `Error al enviar email de pedido. ${err}`);
 	}
 };
