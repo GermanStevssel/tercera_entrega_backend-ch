@@ -24,7 +24,7 @@ export const checkOutSms = async (userPhone) => {
 export const checkOutWhatsapp = async (order, userPhone) => {
 	try {
 		const message = await client.messages.create({
-			body: `nuevo pedido de ${order.userName}, ${order.userEmail}`,
+			body: `Nuevo pedido de ${order.userName}, ${order.userEmail}`,
 			from: "whatsapp:+14155238886",
 			to: `whatsapp:+549${userPhone}`,
 		});
