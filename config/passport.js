@@ -22,6 +22,7 @@ const verifyCallback = async (email, password, done) => {
 
 		if (isValid) {
 			logger.log("info", "password validado");
+			logger.log("info", `Usuario ${user.email} logueado`);
 			return done(null, user);
 		} else {
 			logger.log("error", "password invalido");

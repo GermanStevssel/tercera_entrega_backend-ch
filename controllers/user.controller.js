@@ -9,6 +9,7 @@ export const signUp = async (req, res) => {
 	signUpEmail(newUser);
 	try {
 		await newUser.save();
+		logger.log("info", `Usuario ${newUser.email} registrado`);
 		res.redirect("/login");
 	} catch (error) {
 		logger.error(`Error al registrar usuario. ${error}`);
@@ -16,7 +17,6 @@ export const signUp = async (req, res) => {
 };
 
 export const login = (req, res) => {
-	logger.log("info", `Usuario logueado`);
 	res.render("login");
 };
 
@@ -25,11 +25,9 @@ export const profile = (req, res) => {
 	res.render("profile", { user });
 };
 
-export const logout = (req, res, next) => {
-	const name = req.session.name;
-	logger.log("info", `Usuario deslogueado`);
+export const logout = (req, res) => {
 	req.logout();
-	res.render("logout", { name });
+	res.render("logout");
 };
 
 export const loginError = (req, res) => {

@@ -16,9 +16,9 @@ export const checkOutSms = async (userPhone) => {
 			from: "+19894410301",
 			to: `+549${userPhone}`,
 		});
-		logger.log(message);
+		logger.log("info", message);
 	} catch (err) {
-		logger.log(err);
+		logger.log("error", `error al enviar sms: ${err}`);
 	}
 };
 export const checkOutWhatsapp = async (order, userPhone) => {
@@ -30,6 +30,6 @@ export const checkOutWhatsapp = async (order, userPhone) => {
 		});
 		logger.log(message);
 	} catch (err) {
-		logger.log(`error al enviar whatsapp: ${err}`);
+		logger.log("error", `error al enviar whatsapp: ${err}`);
 	}
 };
