@@ -60,7 +60,7 @@
   deleteBtn.forEach(delBtn=>{
     delBtn.addEventListener('click', async () => {
       const id = delBtn.id
-      const res = await fetch(`https://tercer-entrega-backend-ch.herokuapp.com//carrito/${id}`, {
+      const res = await fetch(`https://tercer-entrega-backend-ch.herokuapp.com/carrito/${id}`, {
         method : 'delete'
       })
       if(res.redirected){
