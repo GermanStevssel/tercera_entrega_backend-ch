@@ -5,7 +5,6 @@ import cartSchema from "./carts.schema.js";
 import { logger } from "../utils/winston/index.js";
 
 const { model } = mongoose;
-mongoose.connect(`${config.mongodb.url}`);
 
 const userSchema = new mongoose.Schema({
 	email: { type: String, required: true, min: 4, trim: true, lowercase: true },

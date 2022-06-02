@@ -3,6 +3,7 @@ import express, { json, urlencoded } from "express";
 import session from "express-session";
 import cors from "cors";
 import path from "path";
+import "./config/db.js";
 import { fileURLToPath } from "url";
 import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
