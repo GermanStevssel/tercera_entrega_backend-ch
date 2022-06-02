@@ -60,7 +60,7 @@
   deleteBtn.forEach(delBtn=>{
     delBtn.addEventListener('click', async () => {
       const id = delBtn.id
-      const res = await fetch(`http://localhost:8080/api/carrito/${id}`, {
+      const res = await fetch(`https://tercer-entrega-backend-ch.herokuapp.com/api/carrito/${id}`, {
         method : 'delete'
       })
       if(res.redirected){
@@ -70,7 +70,7 @@
   })
   const buyBtn = document.querySelector('.comprar')
   buyBtn.addEventListener('click', async () => {
-    const res = await fetch('http://localhost:8080/api/order/', {
+    const res = await fetch('https://tercer-entrega-backend-ch.herokuapp.com/api/order/', {
       method : 'POST'
     })
     if(res.redirected){
