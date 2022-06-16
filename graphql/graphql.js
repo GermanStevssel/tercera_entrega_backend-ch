@@ -1,6 +1,6 @@
 import { graphqlHTTP } from "express-graphql";
 import { buildSchema } from "graphql";
-import ProductsGQL from "./products.graphqlModel";
+import ProductsGQL from "./products.graphqlModel.js";
 
 const schema = buildSchema(`
   type Query {
@@ -8,15 +8,15 @@ const schema = buildSchema(`
     Product(id: String!) : Product
   },
   type Mutation {
-    CreateProduct(name: String!, description: String!, code: Number!, photo: String!, price: Float!, stock: Number!) : Product
+    CreateProduct(name: String!, description: String!, code: Int!, photo: String!, price: Float!, stock: Int!) : Product
   },
   type Product {
     id: String
     name: String
-    code: Number
+    code: Int
     photo: String
     price: Float
-    stock: Number
+    stock: Int
   }
 `);
 
