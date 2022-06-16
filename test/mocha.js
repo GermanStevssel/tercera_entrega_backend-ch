@@ -70,7 +70,7 @@ describe("Test api de productos", () => {
 				"name",
 				"description",
 				"code",
-				"img",
+				"photo",
 				"price",
 				"stock",
 				"id"
@@ -80,7 +80,7 @@ describe("Test api de productos", () => {
 				"Prueba generada con supertest"
 			);
 			expect(res.body.product.code).to.eql("007");
-			expect(res.body.product.img).to.eql("asd");
+			expect(res.body.product.photo).to.eql("asd");
 			expect(res.body.product.price).to.eql(4567);
 			expect(res.body.product.stock).to.eql(3);
 		});
@@ -103,7 +103,7 @@ describe("Test api de productos", () => {
 				"name",
 				"description",
 				"code",
-				"img",
+				"photo",
 				"price",
 				"stock",
 				"id"
@@ -116,7 +116,7 @@ describe("Test api de productos", () => {
 				"Prueba generada con supertest"
 			);
 			expect(res.body.product.code).to.eql("007");
-			expect(res.body.product.img).to.eql("asd");
+			expect(res.body.product.photo).to.eql("asd");
 			expect(res.body.product.price).to.eql(4567);
 			expect(res.body.product.stock).to.eql(3);
 		});

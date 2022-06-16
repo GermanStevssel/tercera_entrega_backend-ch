@@ -19,6 +19,7 @@ import orderRouter from "./routers/ordersRouter.js";
 import userRouter from "./routers/usersRouter.js";
 import "./config/db.js";
 import "./config/passport.js";
+import graphqlRouter from "./routers/graphqlRouter.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,6 +67,7 @@ app.use("/api/productos", productsRouter);
 app.use("/api/carrito", cartRouter);
 app.use(userRouter);
 app.use("/api/order", orderRouter);
+app.use("/graphql", graphqlRouter);
 app.use("/", webRouter);
 
 const numCPUs = os.cpus().length;
